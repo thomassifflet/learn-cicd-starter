@@ -18,6 +18,8 @@ func respondWithError(w http.ResponseWriter, code int, msg string) {
 	})
 }
 
+// I love go with JSON
+
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	dat, err := json.Marshal(payload)
