@@ -14,6 +14,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.20'
+          
   style: 
     name: Formatting and Linting
     runs-on: ubuntu-latest
