@@ -1,33 +1,36 @@
 name: cd
+
 on:
-    push:
-        branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-    deploy:
-        name: Deploy
-        runs-on: ubuntu-latest
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v4
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
 
-            - name: Set up Go
-              uses: actions/setup-go@v4
-              with:
-                go-version: '1.22'
-                
-            - name: Deploy Script
-              run: ./scripts/buildprod.sh
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
 
-            - name: Set up gcloud Cloud SDK environment
-              uses: google-github-actions/setup-gcloud@v2.1.0
+      - name: Build app
+        run: ./scripts/buildprod.sh
 
-            - name: Authenticate to Google Cloud
-              uses: google-github-actions/auth@v2.1.2
-              with:
-                project_id: 'gentle-voltage-421914'
-                credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-            - name: push to GCP AR
-              run: gcloud builds submit --tag us-central1-docker.pkg.dev/gentle-voltage-421914/notely-ar-repo:latest .
-          
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Use gcloud CLI
+        run: gcloud info
+
+      - name: Build and push Docker image
+        run: gcloud builds submit --tag us-central1-docker.pkg.dev/gentle-voltage-421914/notely-ar-repo:latest .
