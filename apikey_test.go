@@ -9,7 +9,7 @@ import (
 
 func TestApiKey(t *testing.T) {
 	headers := http.Header{}
-	headers.Add("Authorization", "ApiKey ")
+	headers.Add("Authorization", "ApiKey lolimanapikey")
 	expected := "lolimanapikey"
 	apiKey, err := auth.GetAPIKey(headers)
 	if err != nil {
