@@ -26,6 +26,7 @@ jobs:
               uses: google-github-actions/auth@v2.1.2
               with:
                 project_id: 'gentle-voltage-421914'
+                credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
             - name: push to GCP AR
               run: gcloud builds submit --tag us-central1-docker.pkg.dev/gentle-voltage-421914/notely-ar-repo:latest .
