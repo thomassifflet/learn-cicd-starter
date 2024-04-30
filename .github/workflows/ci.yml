@@ -17,6 +17,7 @@ jobs:
 
       - name: Test
         run: go test ./... -cover
+        working-directory: ../../
 
   style: 
     name: Style
@@ -35,3 +36,4 @@ jobs:
        run: go install honnef.co/go/tools/cmd/staticcheck@latest
      - name: staticcheck
        run: staticcheck ./...
+       working-directory: ../../
